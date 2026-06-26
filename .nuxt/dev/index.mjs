@@ -2032,7 +2032,7 @@ const _vBv1KYEQZ3EFMEvUGidatklORDFJM_TIcbM39iplEX8 = (function(nitro) {
 
 const rootDir = "/Users/goodboy/Documents/Crazyyyyyyyy/micro";
 
-const appHead = {"meta":[{"name":"viewport","content":"width=device-width, initial-scale=1"},{"charset":"utf-8"}],"link":[],"style":[],"script":[],"noscript":[]};
+const appHead = {"meta":[{"name":"viewport","content":"width=device-width, initial-scale=1"},{"charset":"utf-8"}],"link":[{"rel":"icon","type":"image/x-icon","href":"https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/3840px-Microsoft_logo.svg.png"}],"style":[],"script":[],"noscript":[]};
 
 const appRootTag = "div";
 

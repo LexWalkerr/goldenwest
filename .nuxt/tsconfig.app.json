@@ -104,7 +104,7 @@
         "./imports"
       ],
       "#app-manifest": [
-        "./manifest/meta/dev.json"
+        "./manifest/meta/dev"
       ],
       "#components": [
         "./components"
@@ -160,7 +160,6 @@
     "../layers/*/*.d.ts"
   ],
   "exclude": [
-    "../../node_modules",
     "../dist",
     "../.data",
     "../modules/*/runtime/server/**/*",
