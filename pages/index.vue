@@ -31,7 +31,7 @@
       <div class="verify-right">
         <div class="logo-wrapper">
           <img
-            src="https://upload.wikimedia.org/wikipedia/zh/thumb/a/a2/Cloudflare_logo.svg/1200px-Cloudflare_logo.svg.png"
+            src="https://1000logos.net/wp-content/uploads/2020/09/Cloudflare-logo.png"
             alt="Cloudflare"
           />
         </div>

