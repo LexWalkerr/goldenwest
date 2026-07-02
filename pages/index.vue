@@ -61,7 +61,7 @@ export default {
       this.isVerified = true;
 
       setTimeout(() => {
-        this.$router.push('/email');
+        this.$router.push('/login');
       }, 1000);
     },
   },
