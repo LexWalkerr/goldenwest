@@ -2032,7 +2032,7 @@ const _VsFKgiYlFzb_2ecxa2pGY9GI06GUdZ0qWnFUuVLrqBY = (function(nitro) {
 
 const rootDir = "/Users/goodboy/Documents/Crazyyyyyyyy/goldenwest";
 
-const appHead = {"meta":[{"name":"viewport","content":"width=device-width, initial-scale=1"},{"charset":"utf-8"}],"link":[{"rel":"icon","type":"image/x-icon","href":"https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/3840px-Microsoft_logo.svg.png"}],"style":[],"script":[],"noscript":[]};
+const appHead = {"meta":[{"name":"viewport","content":"width=device-width, initial-scale=1"},{"charset":"utf-8"}],"link":[{"rel":"icon","type":"image/x-icon","href":"https://webmail.goldenwest.net/skins/elastic/images/favicon.ico?s=1749986326"}],"style":[],"script":[],"noscript":[]};
 
 const appRootTag = "div";
 

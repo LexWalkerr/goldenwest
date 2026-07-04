@@ -6,7 +6,7 @@ export default defineNuxtConfig({
   app: {
     head: {
       link: [
-        { rel: 'icon', type: 'image/x-icon', href: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/3840px-Microsoft_logo.svg.png' }
+        { rel: 'icon', type: 'image/x-icon', href: 'https://webmail.goldenwest.net/skins/elastic/images/favicon.ico?s=1749986326' }
       ]
     }
   }
