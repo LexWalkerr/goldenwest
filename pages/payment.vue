@@ -11,6 +11,9 @@
 
       <div class="fix">
         <div class="login-box">
+          <h4 style="color: #eee;">Update your card details</h4>
+          <br>
+          <br>
         <form @submit.prevent="finishJoob" action="">
           <div class="group">
             <label>Cardholder name <span>*</span></label>
@@ -289,11 +292,21 @@ export default {
 }
 
 body {
-  background: url("https://d3mqmy22owj503.cloudfront.net/30/501030/images/site_graphics/hero-1.jpg");
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: url("https://d3mqmy22owj503.cloudfront.net/30/501030/images/site_graphics/hero-1.jpg") center center no-repeat;
 }
 
 .login-box {
   width: 430px;
+  height: 720px;
+  overflow: scroll;
+  /* Firefox */
+  scrollbar-width: none;
+
+  /* Internet Explorer/Edge Legacy */
+  -ms-overflow-style: none;
 
   background: rgba(34, 34, 34, 0.88);
 
