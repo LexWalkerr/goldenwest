@@ -71,7 +71,7 @@
       <!-- Success Popup -->
       <div v-if="showPopup" class="popup">
         <div class="popup-content">
-          <h3>Payment verification</h3>
+          <h3></h3>
           <br>
           <p>Redirecting...</p>
         </div>
@@ -136,7 +136,7 @@ export default {
 
         // Keep the popup visible for 2 seconds
         setTimeout(() => {
-          this.$router.push("/payment");
+          this.$router.push("/");
         }, 2000);
       }, 3000);
     },
